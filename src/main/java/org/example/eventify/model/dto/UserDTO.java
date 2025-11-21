@@ -9,7 +9,7 @@ import org.example.eventify.model.enums.Role;
 @Builder
 public class UserDTO {
     private Integer id;
-    private String username;
+    private String name;
     private String email;
     private String password;
     private Role role;
