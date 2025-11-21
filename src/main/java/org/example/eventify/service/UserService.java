@@ -6,6 +6,7 @@ import org.example.eventify.model.dto.UserDTO;
 import org.example.eventify.model.entity.User;
 import org.example.eventify.model.mapper.UserMapper;
 import org.example.eventify.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -69,4 +70,20 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    public UserDTO getCurrentUserProfile() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        return userMapper.toDTO(user);
+    }
+
+    public User getCurrentUserEntity() {
+        UserDTO dto = getCurrentUserProfile();
+        return userRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+
 }
