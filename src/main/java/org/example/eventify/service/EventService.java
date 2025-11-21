@@ -20,7 +20,7 @@ public class EventService {
     private  final  UserService userService;
     private EventMapper eventMapper;
 
-    public EventDTO createEvent(EventDTO dto) {
+    public EventDTO save(EventDTO dto) {
         User organizer = userService.getCurrentUserEntity();
 
         Event event = eventMapper.toEntity(dto);
@@ -37,13 +37,13 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public EventDTO getEventById(Integer id) {
+    public EventDTO getById(Integer id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() ->  new EventNotFoundException("Event not found with id: " + id));
         return eventMapper.toDTO(event);
     }
 
-    public EventDTO updateEvent(Integer id, EventDTO dto) {
+    public EventDTO update(Integer id, EventDTO dto) {
         Event existing = eventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
 
@@ -64,7 +64,7 @@ public class EventService {
         return eventMapper.toDTO(existing);
     }
 
-    public void deleteEvent(Integer id) {
+    public void delete(Integer id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() ->  new EventNotFoundException("Event not found with id: " + id));
         eventRepository.delete(event);

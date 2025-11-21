@@ -14,5 +14,5 @@ public class RegistrationDTO {
     private Integer userId;
     private Integer eventId;
     private LocalDateTime registeredAt;
-    private Statut statut;
+    private String statut;
 }
