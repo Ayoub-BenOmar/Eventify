@@ -11,11 +11,13 @@ import org.example.eventify.repository.EventRepository;
 import org.example.eventify.repository.RegistrationRepository;
 import org.example.eventify.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 @RequiredArgsConstructor
 public class RegistrationService {
 

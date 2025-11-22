@@ -1,5 +1,6 @@
 package org.example.eventify.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.eventify.model.dto.EventDTO;
 import org.example.eventify.service.EventService;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
+@RequiredArgsConstructor
 public class EventController {
 
-    private EventService eventService;
+    private final EventService eventService;
 
 
     @PostMapping

@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 public interface EventMapper {
 
     @Mapping(source = "organizer.id", target = "organizerId")
-    @Mapping(source = "organizer.name", target = "organizerName")
     EventDTO toDTO(Event event);
 
     @Mapping(source = "organizerId", target = "organizer.id")

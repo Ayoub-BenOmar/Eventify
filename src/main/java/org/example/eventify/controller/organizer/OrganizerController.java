@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrganizerController {
 
-    private EventService eventService;
+    private final EventService eventService;
 
     @PostMapping("/events")
     public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO dto) {

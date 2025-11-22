@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private UserService userService;
-    private EventService eventService;
+    private final UserService userService;
+    private final EventService eventService;
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUsers() {

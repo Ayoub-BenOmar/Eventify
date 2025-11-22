@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-    private RegistrationService registrationService;
+    private final UserService userService;
+    private final RegistrationService registrationService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getProfile() {

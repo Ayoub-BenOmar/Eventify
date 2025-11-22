@@ -1,5 +1,6 @@
 package org.example.eventify.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.eventify.model.dto.RegistrationDTO;
 import org.example.eventify.service.RegistrationService;
 import org.springframework.http.ResponseEntity;
@@ -7,9 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/registrations")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     @PostMapping
     public ResponseEntity<RegistrationDTO> createRegistration(@RequestBody RegistrationDTO dto) {

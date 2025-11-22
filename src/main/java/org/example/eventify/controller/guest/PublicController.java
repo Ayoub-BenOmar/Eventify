@@ -5,6 +5,7 @@ import org.example.eventify.model.dto.EventDTO;
 import org.example.eventify.model.dto.UserDTO;
 import org.example.eventify.service.EventService;
 import org.example.eventify.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PublicController {
 
-    private UserService userService;
-    private EventService eventService;
+    private final UserService userService;
+    private final EventService eventService;
 
     @PostMapping("/users")
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {

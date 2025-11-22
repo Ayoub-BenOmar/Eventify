@@ -8,10 +8,12 @@ import org.example.eventify.model.entity.User;
 import org.example.eventify.model.mapper.EventMapper;
 import org.example.eventify.repository.EventRepository;
 import org.example.eventify.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 @RequiredArgsConstructor
 public class EventService {
 
