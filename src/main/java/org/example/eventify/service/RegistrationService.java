@@ -10,6 +10,7 @@ import org.example.eventify.model.mapper.RegistrationMapper;
 import org.example.eventify.repository.EventRepository;
 import org.example.eventify.repository.RegistrationRepository;
 import org.example.eventify.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,5 +81,38 @@ public class RegistrationService {
         Registration registration = registrationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Registration not found with id " + id));
         registrationRepository.delete(registration);
+    }
+
+    public RegistrationDTO registerLoggedUserToEvent(Integer eventId) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Événement introuvable"));
+
+        Registration registration = Registration.builder()
+                .user(user)
+                .event(event)
+                .registeredAt(LocalDateTime.now())
+                .statut(Statut.PENDING)
+                .build();
+
+        return registrationMapper.toDTO(registrationRepository.save(registration));
+    }
+
+    public List<RegistrationDTO> getRegistrationsForCurrentUser() {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        return registrationRepository.findByUserId(user.getId())
+                .stream()
+                .map(registrationMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
