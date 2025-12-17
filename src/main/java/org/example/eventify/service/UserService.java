@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserDTO save(UserDTO userDTO){
         if (userRepository.existsByEmail(userDTO.getEmail())) {

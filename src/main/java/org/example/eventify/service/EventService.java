@@ -8,6 +8,7 @@ import org.example.eventify.model.entity.User;
 import org.example.eventify.model.mapper.EventMapper;
 import org.example.eventify.repository.EventRepository;
 import org.example.eventify.repository.UserRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
-    private  final  UserService userService;
-    private EventMapper eventMapper;
+    private final UserService userService;
+    private final EventMapper eventMapper;
 
     public EventDTO save(EventDTO dto) {
         User organizer = userService.getCurrentUserEntity();
@@ -49,12 +50,20 @@ public class EventService {
         Event existing = eventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
 
+        User currentUser = userService.getCurrentUserEntity();
+
+        boolean isOwner = existing.getOrganizer().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRole().name().equals("ROLE_ADMIN");
+
+        if (!isOwner && !isAdmin) {
+            throw new AccessDeniedException("You are not allowed to modify this event");
+        }
+
         existing.setTitle(dto.getTitle());
         existing.setDescription(dto.getDescription());
         existing.setLocation(dto.getLocation());
         existing.setDateTime(dto.getDateTime());
         existing.setCapacity(dto.getCapacity());
-
 
         if (dto.getOrganizerId() != null) {
             User organizer = userRepository.findById(dto.getOrganizerId())
@@ -69,6 +78,16 @@ public class EventService {
     public void delete(Integer id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() ->  new EventNotFoundException("Event not found with id: " + id));
+
+        User currentUser = userService.getCurrentUserEntity();
+
+        boolean isOwner = event.getOrganizer().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRole().name().equals("ROLE_ADMIN");
+
+        if (!isOwner && !isAdmin) {
+            throw new AccessDeniedException("You are not allowed to delete this event");
+        }
+
         eventRepository.delete(event);
     }
 }

@@ -1,7 +1,7 @@
 package org.example.eventify.model.enums;
 
 public enum Role {
-    USER,
-    ADMIN,
-    ORGANIZER
+    ROLE_USER,
+    ROLE_ADMIN,
+    ROLE_ORGANIZER
 }
